@@ -1,0 +1,27 @@
+server:
+  port: 8888
+spring:
+  application:
+    name: guli-gatewayservice
+  cloud:
+    gateway:
+      routes:
+        - id: stock-route
+          uri:
+            lb://GULI-STOCK
+          predicates:
+            - Path=/stock/**
+          filters:
+            - guliAdd
+        - id: order-route
+          uri:
+            lb://GULI-ORDER
+          predicates:
+            - Path=/order/**
+
+eureka:
+  client:
+    service-url:
+      defaultZone:  http://localhost:9000/eureka
+  instance:
+    ip-address: localhost

@@ -3,6 +3,8 @@ package com.atguigu.giliorder.service;
 import com.atguigu.giliorder.feign.GuliFeignClient;
 import com.atguigu.giliorder.mapper.OrderMapper;
 import com.atguigu.giliorder.pojo.Order;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,6 +23,7 @@ import java.util.UUID;
  * @Version 1.0
  */
 @Service
+@Slf4j
 public class OrderService {
     @Autowired
     private OrderMapper orderMapper;
@@ -28,6 +31,7 @@ public class OrderService {
     private GuliFeignClient guliFeignClient;
 //    @Autowired
 //    private RestTemplate restTemplate;
+    @HystrixCommand(fallbackMethod = "createOrderFallBack")
     public Boolean createOrder(Long userId, Long count, Long productId) {
         boolean flag = true;
         //封装order对象
@@ -60,6 +64,12 @@ public class OrderService {
             //flag = restTemplate.getForObject("http://GULI-STOCK/stock/save/" + productId + "/" + count, Boolean.class);
             //flag = restTemplate.getForObject("http://GULI-STOCK/stock/save/{1}/{2}", Boolean.class, productId, count);
             flag = guliFeignClient.updeStock(productId, count);
+            System.out.println(flag);
             return flag;
+    }
+    public Boolean createOrderFallBack(Long userId, Long count, Long productId){
+        log.error("保存订单失败，进入兜底方案<熔断降级方法>，参数列表:userId:"+userId+",count:"+count+",productId:"+productId);
+        System.out.println("我执行了.......");
+        return false;
     }
 }

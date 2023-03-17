@@ -3,10 +3,7 @@ package com.atguigu.gulistock.controller;
 import com.atguigu.gulistock.service.StockService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * ClassName: StockController
@@ -28,10 +25,16 @@ public class StockController {
     @GetMapping("/save/{productId}/{count}")
     public Boolean save(
             @PathVariable("productId") Long productId,
-            @PathVariable("count") Long count
+            @PathVariable("count") Long count,
+            @CookieValue(value = "token",required = false)String token
     ){
+//        try {
+//            Thread.sleep(3000);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
         System.out.println("选择了----->"+port);
-        int i = stockService.updataStockByProductIdAndCount(productId, count);
-        return i==1;
+        System.out.println(token);
+        return stockService.updataStockByProductIdAndCount(productId, count)==1;
     }
 }

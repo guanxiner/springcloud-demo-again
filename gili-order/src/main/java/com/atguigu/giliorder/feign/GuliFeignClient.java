@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.PathVariable;
  */
 @FeignClient(value = "GULI-STOCK")
 public interface GuliFeignClient {
-    @GetMapping("/save/{productId}/{count}")
+    @GetMapping("/stock/save/{productId}/{count}")
     public Boolean updeStock(
             @PathVariable("productId") Long productId,
             @PathVariable("count") Long count
