@@ -1,7 +1,5 @@
 package com.atguigu.giliorder.config;
-
 import com.atguigu.giliorder.rule.EurekaRule;
-import com.netflix.loadbalancer.RandomRule;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.context.annotation.Bean;
