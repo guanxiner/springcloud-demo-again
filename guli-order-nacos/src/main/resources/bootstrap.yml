@@ -1,0 +1,34 @@
+spring:
+  cloud:
+    sentinel:
+      datasource:
+        ds1:
+          nacos:
+            server-addr: localhost:8848
+            dataId: cloudalibaba-sentinel-service
+            namespace: 0ca060c7-52b1-4468-b121-e051e56cfcfa
+            groupId: DEFAULT_GROUP
+            data-type: json
+            rule-type: flow
+    nacos:
+      config:
+        server-addr: localhost:8848
+        namespace: 0ca060c7-52b1-4468-b121-e051e56cfcfa
+        file-extension: yml
+        extension-configs:
+          - data-id: mysql-config-info
+            group: DEFAULT_GROUP
+            refresh: true
+          - data-id: redis-config-info
+            group: DEFAULT_GROUP
+            refresh: true
+          - data-id: ngix-config-info
+            group: NGIX_GROUP
+            refresh: true
+          - data-id: guli-config-info
+            group: GULI_GROUP
+            refresh: true
+
+
+  discovery:
+    server-addr: localhost:8848
